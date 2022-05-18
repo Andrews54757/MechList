@@ -108,7 +108,7 @@ public class MechListCommand {
 				GameProfile gameProfile = server.getUserCache().findByName(name).orElse(null);
 				if (gameProfile != null) {
 					if (!whitelist.isAllowed(gameProfile)) {
-						whitelistedPlayers.add(name);
+						whitelistedPlayers.add(gameProfile.getName());
 						whitelist.add(new WhitelistEntry(gameProfile));
 					}
 				} else {
