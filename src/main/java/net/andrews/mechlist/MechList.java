@@ -28,7 +28,7 @@ public class MechList implements ModInitializer {
 		return config;
 	}
 
-	protected static void setConfig(GoogleSheetsConfig config) {
+	public static void setConfig(GoogleSheetsConfig config) {
 		MechList.config = config;
 	}
 }

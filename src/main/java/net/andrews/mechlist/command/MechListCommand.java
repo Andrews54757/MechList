@@ -36,6 +36,8 @@ public class MechListCommand {
 				.requires(source -> source.hasPermissionLevel(2))
 				.then(literal("sync")
 					.executes(MechListCommand::sync))
+				.then(literal("reload-configs")
+					.executes(MechListCommand::reloadConfigs))
 				.then(literal("config")
 					.then(literal(SHEET_ID_NAME)
 						.then(argument(SHEET_ID_NAME, greedyString())
@@ -157,6 +159,12 @@ public class MechListCommand {
 				.append(new LiteralText(	 "\nSheet Range: ").setStyle(Styles.DARK_GREEN.getStyle()))
 				.append(new LiteralText(   config.sheetRange()).setStyle( Styles.DARK_AQUA.getStyle()))
 		);
+		return 1;
+	}
+
+	private static int reloadConfigs(CommandContext<ServerCommandSource> context) {
+		MechList.setConfig(MechList.getConfig().loadFromFile());
+		reply(context, Text.of("Config Reloaded"));
 		return 1;
 	}
 
