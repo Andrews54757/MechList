@@ -7,7 +7,6 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-import com.google.gson.JsonSyntaxException;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -44,10 +43,13 @@ public record GoogleSheetsConfig(String spreadsheetId, String sheetRange) {
 		try {
 			String fileContents = new String(Files.readAllBytes(ConfigFiles.CONFIG.getPath()));
 			return GSON.fromJson(fileContents.isBlank() ? "{}" : fileContents, GoogleSheetsConfig.class);
-		} catch (IOException | JsonSyntaxException e) {
-			MechList.LOGGER.error("Failed to read config file");
-			return new GoogleSheetsConfig("", "");
+		} catch (IOException e) {
+			MechList.LOGGER.error("No config file found, creating new one");
+			this.saveToFile();
+		} catch (JsonParseException e) {
+			MechList.LOGGER.error("Failed to parse config file", e);
 		}
+		return new GoogleSheetsConfig("", "");
 	}
 
 	private static class GoogleSheetsConfigDeserializer implements JsonDeserializer<GoogleSheetsConfig> {
