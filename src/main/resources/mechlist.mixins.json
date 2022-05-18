@@ -4,7 +4,8 @@
   "package": "net.andrews.mechlist.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "MixinCommandManager"
+    "MixinCommandManager",
+    "MixinMinecraftServer"
   ],
   "client": [
   ],
