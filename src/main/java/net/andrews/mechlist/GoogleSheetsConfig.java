@@ -31,7 +31,17 @@ public record GoogleSheetsConfig(String spreadsheetId, String sheetRange) {
 		MechList.setConfig(updatedConfig);
 	}
 
+	public void createFilesIfNotExist() {
+		if (Files.exists(MechList.CONFIG_DIR)) return;
+		try {
+			Files.createDirectories(MechList.CONFIG_DIR);
+		} catch (IOException e) {
+			MechList.LOGGER.error("Failed to create config directory", e);
+		}
+	}
+
 	public void saveToFile() {
+		createFilesIfNotExist();
 		try (BufferedWriter writer = Files.newBufferedWriter(ConfigFiles.CONFIG.getPath())) {
 			GSON.toJson(this, writer);
 		} catch (IOException e) {
