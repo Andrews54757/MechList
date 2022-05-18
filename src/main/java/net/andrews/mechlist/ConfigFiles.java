@@ -13,10 +13,6 @@ public enum ConfigFiles {
 		this.fileName = fileName;
 	}
 
-	public String getFileName() {
-		return fileName;
-	}
-
 	public Path getPath() {
 		return MechList.CONFIG_DIR.resolve(fileName);
 	}
